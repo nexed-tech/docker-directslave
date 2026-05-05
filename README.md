@@ -2,17 +2,18 @@
 DirectSlave docker based on alpine
 ### Check it out on [directslave.com](https://directslave.com/)
 
-[![GitHub Source](https://img.shields.io/badge/github-source-ffb64c?style=flat-square&logo=github&logoColor=white&labelColor=757575)](https://github.com/scraane/directslave)
-[![GitHub issues](https://img.shields.io/github/issues/scraane/directslave?style=flat-square)](https://github.com/scraane/directslave/issues)
-[![GitHub license](https://img.shields.io/github/license/scraane/directslave?style=flat-square)](https://github.com/scraane/directslave/blob/main/LICENSE)
-[![Docker Pulls](https://img.shields.io/docker/pulls/nutjob/directslave?style=flat-square)](https://hub.docker.com/r/nutjob/directslave)
+[![GitHub Source](https://img.shields.io/badge/github-source-ffb64c?style=flat-square&logo=github&logoColor=white&labelColor=757575)](https://github.com/nexed-tech/docker-directslave)
+[![GitHub issues](https://img.shields.io/github/issues/nexed-tech/docker-directslave?style=flat-square)](https://github.com/nexed-tech/docker-directslave/issues)
+[![GitHub license](https://img.shields.io/github/license/nexed-tech/docker-?style=flat-square)](https://github.com/nexed-tech/docker-directslave/blob/main/LICENSE)
+![GitHub Downloads (all assets, all releases)](https://img.shields.io/github/downloads/nexed-tech/docker-directadmin/total)
+
 
 
 ## About (from directslave.com)
 This software (DirectSlave) is designed for fast & easy slave DNS management, interacting with DirectAdmin powered servers using DirectAdmin multiserver API. Configuration of master DirectAdmin server is not necessary, software provides DirectAdmin multiserver API emulation via HTTP protocol. You only need to enable Multi Server feature on master DirectAdmin server and set it up to work with DirectSlave. Basic understanding of DNS basics also might be helpful.
 
 ## Directslave version
-### Using 3.4.3
+### Using 3.5.1
 
 ## Usage
 Here are some example snippets to help you get started creating a container.
