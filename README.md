@@ -2,13 +2,6 @@
 DirectSlave docker based on alpine
 ### Check it out on [directslave.com](https://directslave.com/)
 
-[![GitHub Source](https://img.shields.io/badge/github-source-ffb64c?style=flat-square&logo=github&logoColor=white&labelColor=757575)](https://github.com/nexed-tech/docker-directslave)
-[![GitHub issues](https://img.shields.io/github/issues/nexed-tech/docker-directslave?style=flat-square)](https://github.com/nexed-tech/docker-directslave/issues)
-[![GitHub license](https://img.shields.io/github/license/nexed-tech/docker-?style=flat-square)](https://github.com/nexed-tech/docker-directslave/blob/main/LICENSE)
-
-
-
-
 ## About (from directslave.com)
 This software (DirectSlave) is designed for fast & easy slave DNS management, interacting with DirectAdmin powered servers using DirectAdmin multiserver API. Configuration of master DirectAdmin server is not necessary, software provides DirectAdmin multiserver API emulation via HTTP protocol. You only need to enable Multi Server feature on master DirectAdmin server and set it up to work with DirectSlave. Basic understanding of DNS basics also might be helpful.
 
