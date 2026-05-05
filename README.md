@@ -5,7 +5,7 @@ DirectSlave docker based on alpine
 [![GitHub Source](https://img.shields.io/badge/github-source-ffb64c?style=flat-square&logo=github&logoColor=white&labelColor=757575)](https://github.com/nexed-tech/docker-directslave)
 [![GitHub issues](https://img.shields.io/github/issues/nexed-tech/docker-directslave?style=flat-square)](https://github.com/nexed-tech/docker-directslave/issues)
 [![GitHub license](https://img.shields.io/github/license/nexed-tech/docker-?style=flat-square)](https://github.com/nexed-tech/docker-directslave/blob/main/LICENSE)
-![GitHub Downloads (all assets, all releases)](https://img.shields.io/github/downloads/nexed-tech/docker-directadmin/total)
+
 
 
 
