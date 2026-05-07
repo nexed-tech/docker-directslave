@@ -15,7 +15,7 @@ Here are some example snippets to help you get started creating a container.
 ```
 ---
 services:
-  heimdall:
+  directslave:
     image: nexedtech/directslave
     container_name: directslave
     environment:
