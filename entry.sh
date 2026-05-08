@@ -65,5 +65,10 @@ if [ -n "$PASSWD" ]; then
     printf "\r\n**\r\n*****************************************************************************************\r\n\r\n"
 fi
 
-# run supervisord
-/usr/bin/supervisord -n -c /etc/supervisord.conf
+named -c /etc/bind/named.conf -g -u named 2>&1 | awk '{ print "named -- " $0; fflush() }' &
+/usr/local/directslave/bin/directslave-linux-amd64 --run 2>&1 | awk '{ print "directslave -- " $0; fflush() }' &
+
+trap 'kill 0' SIGTERM SIGINT
+wait -n
+kill 0
+wait
