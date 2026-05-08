@@ -1,22 +1,40 @@
 # directslave
-DirectSlave docker based on alpine
+DirectSlave docker based on Alpine
 ### Check it out on [directslave.com](https://directslave.com/)
 
 ## About (from directslave.com)
 This software (DirectSlave) is designed for fast & easy slave DNS management, interacting with DirectAdmin powered servers using DirectAdmin multiserver API. Configuration of master DirectAdmin server is not necessary, software provides DirectAdmin multiserver API emulation via HTTP protocol. You only need to enable Multi Server feature on master DirectAdmin server and set it up to work with DirectSlave. Basic understanding of DNS basics also might be helpful.
 
-## Directslave version
-### Using 3.5.1
-
 ## Usage
 Here are some example snippets to help you get started creating a container.
 
-### docker-compose (recommended)
-```
+### docker compose (recommended)
+
+Without SSL:
+```yaml
 ---
 services:
   directslave:
-    image: nexedtech/directslave
+    image: nexed-tech/directslave
+    container_name: directslave
+    volumes:
+      - directslave:/app
+    ports:
+      - 53:53/udp
+      - 53:53/tcp
+      - 2222:2222
+    restart: unless-stopped
+
+volumes:
+  directslave:
+```
+
+With SSL:
+```yaml
+---
+services:
+  directslave:
+    image: nexed-tech/directslave
     container_name: directslave
     environment:
       - SSL=on
@@ -25,60 +43,86 @@ services:
     volumes:
       - directslave:/app
     ports:
+      - 53:53/udp
+      - 53:53/tcp
       - 80:80
       - 2224:2224
     restart: unless-stopped
+
+volumes:
+  directslave:
 ```
 
 ### docker cli
+
+Without SSL:
+```
+docker run -d \
+  --name=directslave \
+  -p 53:53/udp \
+  -p 53:53/tcp \
+  -p 2222:2222 \
+  -v directslave:/app \
+  --restart unless-stopped \
+  nexed-tech/directslave
+```
+
+With SSL:
 ```
 docker run -d \
   --name=directslave \
   -e SSL=on \
   -e EMAIL=your@email.com \
   -e DOMAIN=ns02.yourdomain.com \
+  -p 53:53/udp \
+  -p 53:53/tcp \
   -p 80:80 \
   -p 2224:2224 \
-  -v directslave:/config \
+  -v directslave:/app \
   --restart unless-stopped \
-  nexedtech/directslave
+  nexed-tech/directslave
 ```
 
 ## Setup
-### SSL is optional, but recommended!
 
-Port 80 and 2224 will need to be mapped for SSL. Otherwise only port 2222 is needed.
+SSL is optional but recommended. Without SSL, directslave listens on port 2222. With SSL, it listens on port 2224 and port 80 is required for Let's Encrypt certificate issuance.
 
-### When starting for the first time check the log files for the admin password!
-### I recommend you go to manage users, create a new one and delete the admin account!
+On first start, an `admin` user is created with a randomly generated password. **Check the container logs for the credentials:**
+```
+docker logs directslave
+```
+It is recommended to create a new user and delete the default `admin` account afterwards.
 
 ## Parameters
 
-Container images are configured using parameters passed at runtime (such as those above). These parameters are separated by a colon and indicate <external>:<internal> respectively. For example, -p 8080:80 would expose port 80 from inside the container to be accessible from the host's IP on port 8080 outside the container.
-  
-|Parameter|Function|
-|---------|--------|
-|-p 80|port needed for letsencypt|
-|-p 2222|non ssl port directslave|
-|-p 2224|ssl port directslave|
-|-e SSL=on|enable ssl encryption using letsencrypt|
-|-e EMAIL=your@email.com|email address needed for letsencrypt|
-|-e DOMAIN=ns02.yourdomain.com|domain to register the ssl cert|
-  
-## Updating Info
+| Parameter | Function |
+|-----------|----------|
+| `-p 53/udp` | DNS (required) |
+| `-p 53/tcp` | DNS over TCP (required) |
+| `-p 80` | Required for Let's Encrypt certificate issuance |
+| `-p 2222` | DirectSlave web interface (non-SSL) |
+| `-p 2224` | DirectSlave web interface (SSL) |
+| `-e SSL=on` | Enable SSL using Let's Encrypt |
+| `-e EMAIL=your@email.com` | Email address for Let's Encrypt |
+| `-e DOMAIN=ns02.yourdomain.com` | Domain to register the SSL certificate for |
+| `-v /app` | Persistent storage for slave zones, logs, and credentials |
 
-Below are the instructions for updating containers:
+## Updating
 
 ### Via Docker Compose
-* Update all images: docker-compose pull
-  * or update a single image: docker-compose pull directslave
-* Let compose update all containers as necessary: docker-compose up -d
-  * or update a single container: docker-compose up -d directslave
-* You can also remove the old dangling images: docker image prune
+```
+docker compose pull
+docker compose up -d
+docker image prune
+```
 
 ### Via Docker Run
-* Update the image: docker pull nexedtech/directslave
-* Stop the running container: docker stop directslave
-* Delete the container: docker rm directslave
-* Recreate a new container with the same docker run parameters as instructed above (if mapped correctly to a host folder, your /app folder and settings will be preserved)
-* You can also remove the old dangling images: docker image prune
+```
+docker pull nexed-tech/directslave
+docker stop directslave
+docker rm directslave
+```
+Recreate the container using the same `docker run` command. Your data in `/app` will be preserved if the volume is mapped correctly.
+```
+docker image prune
+```
