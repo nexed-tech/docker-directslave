@@ -1,7 +1,8 @@
 name: docker
 
 # Build the image and push it to GHCR on every push to main.
-# Tags: `latest` (moving) + the short commit SHA (immutable, e.g. 1ebf10c).
+# Tags: `latest` (moving) + the short commit SHA (immutable, e.g. 1ebf10c)
+#       + the DirectSlave version read from the Dockerfile `dsversion` ARG.
 # A running stack picks up a new image with tabang-stack/scripts/update.sh.
 #
 # Auth is the built-in GITHUB_TOKEN, no PAT. If the first push 403s, the GHCR
@@ -27,12 +28,20 @@ jobs:
     steps:
       - uses: actions/checkout@v4
 
+      # Pull the DirectSlave version out of the Dockerfile so it drives the tag.
+      - id: dsversion
+        run: |
+          version=$(sed -n 's/^ARG dsversion=//p' Dockerfile | head -n1 | tr -d '[:space:]')
+          echo "version=$version" >> "$GITHUB_OUTPUT"
+          echo "DirectSlave version: $version"
+
       - id: meta
         uses: docker/metadata-action@v5
         with:
           images: ghcr.io/nexed-tech/docker-directslave
           tags: |
             type=raw,value=latest
+            type=raw,value=${{ steps.dsversion.outputs.version }}
             type=sha,prefix=,format=short
 
       - uses: docker/setup-buildx-action@v3
@@ -47,6 +56,8 @@ jobs:
         with:
           context: .
           push: true
+          build-args: |
+            dsversion=${{ steps.dsversion.outputs.version }}
           tags: ${{ steps.meta.outputs.tags }}
           labels: ${{ steps.meta.outputs.labels }}
           cache-from: type=gha
